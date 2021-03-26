@@ -5,36 +5,31 @@ using System.Collections;
 
 public class Drive : MonoBehaviour
 {
-    float speed = .8f;
+    float speed = .01f;
+    Vector3 direction;
+    public GameObject fuel;
+    float stoppingDistance = 0.1f;
 
-    Vector2 Up = new Vector2(0, 1f);
-    Vector2 Right = new Vector2(1f, 0);
+    private void Start()
+    {
+        // If direction is declared here, the value of direction wont change each frame
+        // this way, direction wont get smaller each frame and the Tank speed will be
+        // constant and the tank is going to pass the fuel
+        direction = fuel.transform.position - transform.position;
+    }
 
     void Update()
     {
-        Vector3 position = transform.position;
+        // If direction is declared here, the tank deacelerates when is near the fuel
+        // This happens because transform.position increases each frame, in this way
+        // direction decreaces each frame. 
+        // The tank will almost reach the fuel, but never will exactly reach it
+        // so, its necessary a stopping condition to stop the tank
+        //direction = fuel.transform.position - transform.position;
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Vector3.Distance(transform.position, fuel.transform.position) > stoppingDistance)
         {
-            position.x += Right.x * speed;
-            position.y += Right.y * speed;
+            transform.position += direction * speed;
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            position.x += -Right.x * speed;
-            position.y += -Right.y * speed;
-        }
-        else if (Input.GetKey(KeyCode.UpArrow))
-        {
-            position.x += Up.x * speed;
-            position.y += Up.y * speed;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            position.x += -Up.x * speed;
-            position.y += -Up.y * speed;
-        }
-
-        transform.position = position;
     }
 }
