@@ -5,29 +5,34 @@ using System.Collections;
 
 public class Drive : MonoBehaviour
 {
-    Vector2 dir = new Vector2(0.1f, 0.1f);
+    float speed = .8f;
+
+    Vector2 Up = new Vector2(0, 1f);
+    Vector2 Right = new Vector2(1f, 0);
 
     void Update()
     {
         Vector3 position = transform.position;
+
         if (Input.GetKey(KeyCode.RightArrow))
         {
-        position.x += dir.x;
+            position.x += Right.x * speed;
+            position.y += Right.y * speed;
         }
-
-        if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.LeftArrow))
         {
-        position.x -= dir.x;
+            position.x += -Right.x * speed;
+            position.y += -Right.y * speed;
         }
-
-        if (Input.GetKey(KeyCode.UpArrow))
+        else if (Input.GetKey(KeyCode.UpArrow))
         {
-            position.y += dir.y;
+            position.x += Up.x * speed;
+            position.y += Up.y * speed;
         }
-
-         if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
-            position.y -= dir.y;
+            position.x += -Up.x * speed;
+            position.y += -Up.y * speed;
         }
 
         transform.position = position;
