@@ -5,7 +5,7 @@ using System.Collections;
 
 public class Drive : MonoBehaviour
 {
-    float speed = .01f;
+    float speed = 5f;
     Vector3 direction;
     public GameObject fuel;
     float stoppingDistance = 0.1f;
@@ -16,6 +16,8 @@ public class Drive : MonoBehaviour
         // this way, direction wont get smaller each frame and the Tank speed will be
         // constant and the tank is going to pass the fuel
         direction = fuel.transform.position - transform.position;
+        Coords dirNormal = HolisticMath.GetNormal(new Coords(direction));
+        direction = dirNormal.ToVector();
     }
 
     void Update()
@@ -27,9 +29,11 @@ public class Drive : MonoBehaviour
         // so, its necessary a stopping condition to stop the tank
         //direction = fuel.transform.position - transform.position;
 
-        if (Vector3.Distance(transform.position, fuel.transform.position) > stoppingDistance)
+        if (HolisticMath.Distance(new Coords(transform.position), new Coords(fuel.transform.position)) > stoppingDistance)
         {
-            transform.position += direction * speed;
+
+            // multiply by Time.deltaTime ensures a more consistent movement, independent of fps
+            transform.position += direction * speed * Time.deltaTime;
         }
     }
 }
