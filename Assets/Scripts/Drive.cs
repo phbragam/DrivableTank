@@ -18,9 +18,23 @@ public class Drive : MonoBehaviour
         direction = fuel.transform.position - transform.position;
         Coords dirNormal = HolisticMath.GetNormal(new Coords(direction));
         direction = dirNormal.ToVector();
-        float angle = HolisticMath.Angle(new Coords(0, 1, 0), new Coords(direction)); //* 180.0f/Mathf.PI;
+        float angle = HolisticMath.Angle(new Coords(transform.up), new Coords(direction)); //* 180.0f/Mathf.PI;
         //Debug.Log("Angle to fuel: " + angle);
-        Coords newDir = HolisticMath.Rotate(new Coords(0, 1, 0), angle);
+
+        // green axis: transform.up
+        // red axis: transform.right
+        // blue axis: transform.forward
+
+        Debug.Log("transform.up: " + transform.up);
+        Debug.Log("dirNormal: " + transform.up);
+
+        bool clockwise = false;
+        if (HolisticMath.Cross(new Coords(transform.up), dirNormal).z < 0)
+        {
+            clockwise = true;
+        }
+
+        Coords newDir = HolisticMath.Rotate(new Coords(0, 1, 0), angle, clockwise);
         transform.up = new Vector3(newDir.x, newDir.y, newDir.z);
         Debug.Log(transform.up);
     }
