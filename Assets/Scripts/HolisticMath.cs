@@ -48,4 +48,11 @@ public class HolisticMath
 
         return Mathf.Acos(denominator / numerator); // radians. For degree * 180/Mathf.PI;
     }
+
+    static public Coords Rotate(Coords vector, float angle) // in radians (because it will come from angle method)
+    {
+        float xVal = vector.x * Mathf.Cos(angle) - vector.y * Mathf.Sin(angle);
+        float yVal = vector.x * Mathf.Sin(angle) + vector.y * Mathf.Cos(angle);
+        return new Coords(xVal, yVal, 0);
+    }
 }
