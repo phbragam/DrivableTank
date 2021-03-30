@@ -26,9 +26,15 @@ public class Drive : MonoBehaviour
         // blue axis: transform.forward
 
         Debug.Log("transform.up: " + transform.up);
-        Debug.Log("dirNormal: " + transform.up);
+        Debug.Log("dirNormal: " + dirNormal);
 
         bool clockwise = false;
+        // If this cross product between transform.up and direction to goal is positive, by right hand rule 
+        // (going from first parameter to second parameter),
+        // that indicates anti-clockwise rotation.
+        // If this cross product between transform.up and direction to goal is negative, by right hand rule 
+        // (going from first parameter to second parameter),
+        // that indicates clockwise rotation.
         if (HolisticMath.Cross(new Coords(transform.up), dirNormal).z < 0)
         {
             clockwise = true;
